@@ -1,0 +1,831 @@
+CREATE DATABASE railway_management_system;
+
+-- 1. Users Table
+CREATE TABLE Users (
+    User_ID INT AUTO_INCREMENT PRIMARY KEY,
+    Name VARCHAR(100) NOT NULL,
+    Phone_Number VARCHAR(15) NOT NULL UNIQUE,
+    Email VARCHAR(100) UNIQUE,
+    Address TEXT NOT NULL,
+    Gender ENUM('Male', 'Female', 'Other') NOT NULL,
+    Date_of_Birth DATE NOT NULL,
+    National_ID VARCHAR(20) NOT NULL UNIQUE,
+    Passport_Number VARCHAR(20) UNIQUE,
+    Emergency_Contact VARCHAR(15)
+);
+
+INSERT INTO Users (Name, Phone_Number, Email, Address, Gender, Date_of_Birth, National_ID, Passport_Number, Emergency_Contact) VALUES
+('Abdul Karim', '01711000001', 'karim@gmail.com', 'Dhaka', 'Male', '1990-05-10', '1234567890', 'BP12345', '01822000001'),
+('Hasina Begum', '01811000002', 'hasina@gmail.com', 'Chattogram', 'Female', '1985-03-15', '9876543210', 'BP12346', '01933000002'),
+('Rajib Khan', '01911000003', 'rajib@gmail.com', 'Khulna', 'Male', '1995-07-22', '1357908642', 'BP12347', '01744000003'),
+('Sumaiya Islam', '01611000004', 'sumaiya@gmail.com', 'Rajshahi', 'Female', '1993-09-30', '2468013579', 'BP12348', '01855000004'),
+('Sajid Rahman', '01511000005', 'sajid@gmail.com', 'Sylhet', 'Male', '1997-12-05', '3692581470', 'BP12349', '01766000005'),
+('Rumana Akter', '01411000006', 'rumana@gmail.com', 'Barishal', 'Female', '1990-11-18', '3216549870', 'BP12350', '01977000006'),
+('Mehedi Hasan', '01721000007', 'mehedi@gmail.com', 'Gazipur', 'Male', '1992-08-25', '1122334455', 'BP12351', '01688000007'),
+('Nasrin Nahar', '01831000008', 'nasrin@gmail.com', 'Cumilla', 'Female', '1988-02-20', '9988776655', 'BP12352', '01799000008'),
+('Tanvir Ahmed', '01541000009', 'tanvir@gmail.com', 'Mymensingh', 'Male', '1985-04-11', '5566778899', 'BP12353', '01800000009'),
+('Mithila Sultana', '01651000010', 'mithila@gmail.com', 'Rangpur', 'Female', '1991-06-15', '4433221100', 'BP12354', '01911000010');
+
+
+-- 2. Employees Table
+CREATE TABLE Employees (
+    Employee_ID INT AUTO_INCREMENT PRIMARY KEY,
+    Name VARCHAR(100) NOT NULL,
+    Role VARCHAR(50) NOT NULL,
+    Phone_Number VARCHAR(15) UNIQUE,
+    Email VARCHAR(100) UNIQUE,
+    Address TEXT NOT NULL,
+    Salary DECIMAL(10, 2) NOT NULL,
+    Join_Date DATE NOT NULL,
+    Shift ENUM('Morning', 'Evening', 'Night') NOT NULL,
+    Station_Assigned INT,
+    FOREIGN KEY (Station_Assigned) REFERENCES Stations(Station_ID)
+);
+
+INSERT INTO Employees (Name, Role, Phone_Number, Email, Address, Salary, Join_Date, Shift, Station_Assigned) VALUES
+('Jamal Uddin', 'Station Manager', '01761000001', 'jamal.manager@gmail.com', 'Dhaka', 50000, '2015-06-01', 'Morning', 1),
+('Aminul Islam', 'Ticket Checker', '01761000002', 'aminul.tickets@gmail.com', 'Chattogram', 25000, '2017-03-15', 'Evening', 2),
+('Shakil Hossain', 'Train Driver', '01761000003', 'shakil.driver@gmail.com', 'Sylhet', 40000, '2018-11-10', 'Night', 3),
+('Mahmuda Begum', 'Customer Service', '01761000004', 'mahmuda.service@gmail.com', 'Khulna', 30000, '2016-07-20', 'Morning', 4),
+('Mizanur Rahman', 'Ticket Seller', '01761000005', 'mizan.tickets@gmail.com', 'Rajshahi', 20000, '2019-01-05', 'Evening', 5),
+('Rubel Mia', 'Maintenance Staff', '01761000006', 'rubel.maintenance@gmail.com', 'Barishal', 15000, '2020-08-15', 'Night', 6),
+('Tahmina Sultana', 'Security Guard', '01761000007', 'tahmina.security@gmail.com', 'Gazipur', 18000, '2014-04-25', 'Morning', 7),
+('Nafis Ahmed', 'Station Manager', '01761000008', 'nafis.manager@gmail.com', 'Cumilla', 52000, '2013-12-01', 'Morning', 8),
+('Anisur Rahman', 'Train Conductor', '01761000009', 'anisur.conductor@gmail.com', 'Mymensingh', 35000, '2018-09-18', 'Night', 9),
+('Sadia Jahan', 'Admin Staff', '01761000010', 'sadia.admin@gmail.com', 'Rangpur', 28000, '2019-11-11', 'Evening', 10);
+
+
+
+-- 3. Stations Table
+CREATE TABLE Stations (
+    Station_ID INT AUTO_INCREMENT PRIMARY KEY,
+    Name VARCHAR(100) NOT NULL,
+    Location TEXT NOT NULL,
+    District VARCHAR(50) NOT NULL,
+    Phone_Number VARCHAR(15) UNIQUE,
+    Manager_Name VARCHAR(100),
+    Established_Date DATE NOT NULL
+);
+
+INSERT INTO Stations (Name, Location, District, Phone_Number, Manager_Name, Established_Date) VALUES
+('Kamalapur', 'Kamalapur Railway Station, Dhaka', 'Dhaka', '0293456789', 'Jamal Uddin', '1968-06-01'),
+('Chattogram Central', 'Central Station, Chattogram', 'Chattogram', '0312345678', 'Aminul Islam', '1950-08-15'),
+('Sylhet Station', 'Sylhet City', 'Sylhet', '0821345678', 'Shakil Hossain', '1975-04-10'),
+('Khulna Station', 'Khulna City', 'Khulna', '0412345678', 'Mahmuda Begum', '1960-11-25'),
+('Rajshahi Station', 'Rajshahi City', 'Rajshahi', '0721345678', 'Mizanur Rahman', '1958-09-05'),
+('Barishal Station', 'Barishal City', 'Barishal', '0431345678', 'Rubel Mia', '1962-07-15'),
+('Gazipur Station', 'Gazipur City', 'Gazipur', '0681345678', 'Tahmina Sultana', '1970-05-25'),
+('Cumilla Station', 'Cumilla City', 'Cumilla', '0812345678', 'Nafis Ahmed', '1956-03-10'),
+('Mymensingh Station', 'Mymensingh City', 'Mymensingh', '0912345678', 'Anisur Rahman', '1965-12-01'),
+('Rangpur Station', 'Rangpur City', 'Rangpur', '0521345678', 'Sadia Jahan', '1963-10-15');
+
+
+-- 4. Trains Table
+CREATE TABLE Trains (
+    Train_ID INT AUTO_INCREMENT PRIMARY KEY,
+    Train_Name VARCHAR(100) NOT NULL,
+    Capacity INT NOT NULL,
+    Class ENUM('AC', 'Non-AC', 'Sleeper') NOT NULL,
+    Status ENUM('Running', 'Maintenance') DEFAULT 'Running'
+);
+
+INSERT INTO Trains (Train_Name, Capacity, Class, Status) VALUES
+('Suborno Express', 800, 'AC', 'Running'),
+('Chattala Express', 500, 'Non-AC', 'Running'),
+('Mohanganj Express', 700, 'AC', 'Running'),
+('Drutajan Express', 1000, 'Sleeper', 'Maintenance'),
+('Parabat Express', 900, 'AC', 'Running'),
+('Mahanagar Godhuli', 850, 'Non-AC', 'Running'),
+('Kurigram Express', 750, 'Sleeper', 'Running'),
+('Teesta Express', 400, 'Non-AC', 'Running'),
+('Ekota Express', 1000, 'AC', 'Maintenance'),
+('Sonar Bangla Express', 850, 'Non-AC', 'Running');
+
+-- 5. Routes Table
+CREATE TABLE Routes (
+    Route_ID INT AUTO_INCREMENT PRIMARY KEY,
+    Start_Station INT NOT NULL,
+    End_Station INT NOT NULL,
+    Distance DECIMAL(10, 2) NOT NULL,
+    Duration DECIMAL(5, 2) NOT NULL,
+    FOREIGN KEY (Start_Station) REFERENCES Stations(Station_ID),
+    FOREIGN KEY (End_Station) REFERENCES Stations(Station_ID)
+);
+
+INSERT INTO Routes (Start_Station, End_Station, Distance, Duration) VALUES
+(1, 2, 245.00, 6.00),
+(1, 3, 266.00, 6.50),
+(1, 4, 350.00, 8.00),
+(1, 5, 319.00, 7.00),
+(1, 6, 169.00, 4.00),
+(2, 3, 403.00, 10.00),
+(3, 4, 207.00, 5.00),
+(6, 7, 315.00, 8.00),
+(8, 9, 150.00, 3.00),
+(1, 10, 320.00, 7.00);
+
+
+-- 6. Schedules Table
+CREATE TABLE Schedules (
+    Schedule_ID INT AUTO_INCREMENT PRIMARY KEY,
+    Train_ID INT NOT NULL,
+    Route_ID INT NOT NULL,
+    Departure_Time DATETIME NOT NULL,
+    Arrival_Time DATETIME NOT NULL,
+    FOREIGN KEY (Train_ID) REFERENCES Trains(Train_ID),
+    FOREIGN KEY (Route_ID) REFERENCES Routes(Route_ID)
+);
+
+-- Inserting sample data into Schedules Table
+INSERT INTO Schedules (Train_ID, Route_ID, Departure_Time, Arrival_Time) VALUES
+(1, 1, '2024-12-01 07:30:00', '2024-12-01 13:30:00'),
+(2, 2, '2024-12-02 09:00:00', '2024-12-02 17:00:00'),
+(3, 3, '2024-12-03 06:00:00', '2024-12-03 13:00:00'),
+(4, 4, '2024-12-04 14:00:00', '2024-12-04 22:00:00'),
+(5, 5, '2024-12-05 15:30:00', '2024-12-05 22:30:00'),
+(6, 6, '2024-12-06 07:00:00', '2024-12-06 15:00:00'),
+(7, 7, '2024-12-07 05:30:00', '2024-12-07 12:30:00'),
+(8, 8, '2024-12-08 16:00:00', '2024-12-08 21:00:00'),
+(9, 9, '2024-12-09 08:00:00', '2024-12-09 16:00:00'),
+(10, 10, '2024-12-10 10:30:00', '2024-12-10 17:30:00');
+
+
+-- 7. Tickets Table
+CREATE TABLE Tickets (
+    Ticket_ID INT AUTO_INCREMENT PRIMARY KEY,
+    Booking_ID INT NOT NULL,
+    Seat_Number VARCHAR(10) NOT NULL,
+    Price DECIMAL(10, 2) NOT NULL,
+    Journey_Date DATE NOT NULL,
+    FOREIGN KEY (Booking_ID) REFERENCES Bookings(Booking_ID)
+);
+
+-- Inserting sample data into Tickets Table
+INSERT INTO Tickets (Booking_ID, Seat_Number, Price, Journey_Date) VALUES
+(1, 'A1', 1500.00, '2024-12-01'),
+(2, 'B2', 1200.00, '2024-12-02'),
+(3, 'C3', 1300.00, '2024-12-03'),
+(4, 'D4', 1100.00, '2024-12-04'),
+(5, 'E5', 1400.00, '2024-12-05'),
+(6, 'F6', 1600.00, '2024-12-06'),
+(7, 'G7', 1250.00, '2024-12-07'),
+(8, 'H8', 1350.00, '2024-12-08'),
+(9, 'I9', 1100.00, '2024-12-09'),
+(10, 'J10', 1550.00, '2024-12-10');
+
+
+-- 8. Bookings Table
+CREATE TABLE Bookings (
+    Booking_ID INT AUTO_INCREMENT PRIMARY KEY,
+    User_ID INT NOT NULL,
+    Train_ID INT NOT NULL,
+    Booking_Date DATE NOT NULL,
+    Payment_Status ENUM('Pending', 'Completed') DEFAULT 'Pending',
+    FOREIGN KEY (User_ID) REFERENCES Users(User_ID),
+    FOREIGN KEY (Train_ID) REFERENCES Trains(Train_ID)
+);
+
+-- Inserting sample data into Bookings Table
+INSERT INTO Bookings (User_ID, Train_ID, Booking_Date, Payment_Status) VALUES
+(1, 1, '2024-12-01', 'Completed'),
+(2, 2, '2024-12-02', 'Pending'),
+(3, 3, '2024-12-03', 'Completed'),
+(4, 4, '2024-12-04', 'Pending'),
+(5, 5, '2024-12-05', 'Completed'),
+(6, 6, '2024-12-06', 'Completed'),
+(7, 7, '2024-12-07', 'Pending'),
+(8, 8, '2024-12-08', 'Completed'),
+(9, 9, '2024-12-09', 'Pending'),
+(10, 10, '2024-12-10', 'Completed');
+
+
+-- 9. Payment Table
+CREATE TABLE Payment (
+    Payment_ID INT AUTO_INCREMENT PRIMARY KEY,
+    Booking_ID INT NOT NULL,
+    Payment_Mode ENUM('Cash', 'Online') NOT NULL,
+    Payment_Date DATE NOT NULL,
+    Amount DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (Booking_ID) REFERENCES Bookings(Booking_ID)
+);
+
+-- Inserting sample data into Payment Table
+INSERT INTO Payment (Booking_ID, Payment_Mode, Payment_Date, Amount) VALUES
+(1, 'Cash', '2024-12-01', 1500.00),
+(2, 'Online', '2024-12-02', 1200.00),
+(3, 'Cash', '2024-12-03', 1300.00),
+(4, 'Online', '2024-12-04', 1100.00),
+(5, 'Cash', '2024-12-05', 1400.00),
+(6, 'Online', '2024-12-06', 1600.00),
+(7, 'Cash', '2024-12-07', 1250.00),
+(8, 'Online', '2024-12-08', 1350.00),
+(9, 'Cash', '2024-12-09', 1100.00),
+(10, 'Online', '2024-12-10', 1550.00);
+
+
+-- 10. Feedback Table
+CREATE TABLE Feedback (
+    Feedback_ID INT AUTO_INCREMENT PRIMARY KEY,
+    User_ID INT NOT NULL,
+    Feedback_Text TEXT NOT NULL,
+    Rating INT CHECK (Rating BETWEEN 1 AND 5),
+    FOREIGN KEY (User_ID) REFERENCES Users(User_ID)
+);
+
+-- Inserting sample data into Feedback Table
+INSERT INTO Feedback (User_ID, Feedback_Text, Rating) VALUES
+(1, 'Great service and punctuality. I am satisfied with my experience.', 5),
+(2, 'Comfortable train, but the journey was delayed by 30 minutes.', 3),
+(3, 'The staff was helpful, but the train was overcrowded.', 4),
+(4, 'Very clean and fast service, enjoyed the trip!', 5),
+(5, 'The booking process was smooth, but there was no food service on board.', 4),
+(6, 'Poor condition of the train. It was not as expected.', 2),
+(7, 'Good experience overall, but the seats could be more comfortable.', 3),
+(8, 'The train was late, but the rest of the service was fine.', 3),
+(9, 'The journey was smooth, and I enjoyed the amenities provided.', 4),
+(10, 'Had a great trip! The train was on time and clean.', 5);
+
+
+-- 11. Maintenance Table
+CREATE TABLE Maintenance (
+    Maintenance_ID INT AUTO_INCREMENT PRIMARY KEY,
+    Train_ID INT NOT NULL,
+    Start_Date DATE NOT NULL,
+    End_Date DATE,
+    Description TEXT,
+    FOREIGN KEY (Train_ID) REFERENCES Trains(Train_ID)
+);
+
+-- Inserting sample data into Maintenance Table
+INSERT INTO Maintenance (Train_ID, Start_Date, End_Date, Description) VALUES
+(1, '2024-12-01', '2024-12-03', 'Routine checkup and engine servicing.'),
+(2, '2024-12-02', '2024-12-04', 'Repair of damaged seating and minor electrical work.'),
+(3, '2024-12-05', '2024-12-06', 'Cleaning and inspection of air conditioning system.'),
+(4, '2024-12-07', '2024-12-09', 'Overhaul of wheels and axles, plus safety checks.'),
+(5, '2024-12-10', '2024-12-12', 'Full engine inspection and air brake maintenance.'),
+(6, '2024-12-13', '2024-12-15', 'Replacement of seats and carpet cleaning.'),
+(7, '2024-12-16', '2024-12-17', 'Maintenance of electrical systems and control panels.'),
+(8, '2024-12-18', '2024-12-19', 'Replacement of door handles and window seals.'),
+(9, '2024-12-20', '2024-12-22', 'Cleaning of train tracks and minor engine adjustments.'),
+(10, '2024-12-23', '2024-12-25', 'Servicing of the air conditioning and heating systems.');
+
+
+-- 12. Train_Classes Table
+CREATE TABLE Train_Classes (
+    Class_ID INT AUTO_INCREMENT PRIMARY KEY,
+    Class_Name ENUM('AC', 'Non-AC', 'Sleeper') NOT NULL,
+    Description TEXT
+);
+
+-- Inserting sample data into Train_Classes Table
+INSERT INTO Train_Classes (Class_Name, Description) VALUES
+('AC', 'Air-conditioned coaches offering comfortable seating and climate control.'),
+('Non-AC', 'Standard seating coaches without air-conditioning, providing budget-friendly travel.'),
+('Sleeper', 'Coaches with bunk beds for long-distance overnight travel, offering a low-cost option.');
+
+
+-- 13. Fares Table
+CREATE TABLE Fares (
+    Fare_ID INT AUTO_INCREMENT PRIMARY KEY,
+    Train_ID INT NOT NULL,
+    Route_ID INT NOT NULL,
+    Class_ID INT NOT NULL,
+    Fare DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (Train_ID) REFERENCES Trains(Train_ID),
+    FOREIGN KEY (Route_ID) REFERENCES Routes(Route_ID),
+    FOREIGN KEY (Class_ID) REFERENCES Train_Classes(Class_ID)
+);
+
+-- Inserting sample data into Fares Table
+INSERT INTO Fares (Train_ID, Route_ID, Class_ID, Fare) VALUES
+(1, 1, 1, 1500.00), -- Train 1, Route 1, AC Class
+(2, 2, 2, 1200.00), -- Train 2, Route 2, Non-AC Class
+(3, 3, 3, 800.00),  -- Train 3, Route 3, Sleeper Class
+(4, 4, 1, 1800.00), -- Train 4, Route 4, AC Class
+(5, 5, 2, 1300.00), -- Train 5, Route 5, Non-AC Class
+(6, 6, 3, 700.00),  -- Train 6, Route 6, Sleeper Class
+(7, 7, 1, 1600.00), -- Train 7, Route 7, AC Class
+(8, 8, 2, 1400.00), -- Train 8, Route 8, Non-AC Class
+(9, 9, 3, 750.00),  -- Train 9, Route 9, Sleeper Class
+(10, 10, 1, 1700.00); -- Train 10, Route 10, AC Class
+
+
+-- 14. Luggage Table
+CREATE TABLE Luggage (
+    Luggage_ID INT AUTO_INCREMENT PRIMARY KEY,
+    Booking_ID INT NOT NULL,
+    Weight DECIMAL(10, 2) NOT NULL,
+    Extra_Charge DECIMAL(10, 2),
+    FOREIGN KEY (Booking_ID) REFERENCES Bookings(Booking_ID)
+);
+
+-- Inserting sample data into Luggage Table
+INSERT INTO Luggage (Booking_ID, Weight, Extra_Charge) VALUES
+(1, 20.00, 100.00),  -- Booking 1, 20kg luggage, extra charge 100 BDT
+(2, 15.50, 50.00),   -- Booking 2, 15.5kg luggage, extra charge 50 BDT
+(3, 25.00, 150.00),  -- Booking 3, 25kg luggage, extra charge 150 BDT
+(4, 18.00, 75.00),   -- Booking 4, 18kg luggage, extra charge 75 BDT
+(5, 30.00, 200.00),  -- Booking 5, 30kg luggage, extra charge 200 BDT
+(6, 10.00, NULL),    -- Booking 6, 10kg luggage, no extra charge
+(7, 22.50, 120.00),  -- Booking 7, 22.5kg luggage, extra charge 120 BDT
+(8, 17.00, 60.00),   -- Booking 8, 17kg luggage, extra charge 60 BDT
+(9, 28.00, 180.00),  -- Booking 9, 28kg luggage, extra charge 180 BDT
+(10, 12.00, NULL);   -- Booking 10, 12kg luggage, no extra charge
+
+
+-- 15. Complaints Table
+CREATE TABLE Complaints (
+    Complaint_ID INT AUTO_INCREMENT PRIMARY KEY,
+    User_ID INT NOT NULL,
+    Complaint_Text TEXT NOT NULL,
+    Status ENUM('Pending', 'Resolved') DEFAULT 'Pending',
+    FOREIGN KEY (User_ID) REFERENCES Users(User_ID)
+);
+
+-- Inserting sample data into Complaints Table
+INSERT INTO Complaints (User_ID, Complaint_Text, Status) VALUES
+(1, 'The air conditioning in the train was not working properly.', 'Pending'),
+(2, 'The train was delayed by more than 2 hours without any notification.', 'Resolved'),
+(3, 'The seats were uncomfortable, and there was no proper cleanliness in the coach.', 'Pending'),
+(4, 'The ticket booking system was not accepting my payment despite multiple attempts.', 'Resolved'),
+(5, 'The train was overcrowded, and there was no space to sit for many passengers.', 'Pending'),
+(6, 'The restrooms were in a very unhygienic condition throughout the journey.', 'Resolved'),
+(7, 'There was a lack of proper announcements during the journey.', 'Pending'),
+(8, 'The train’s Wi-Fi was not working even though it was advertised.', 'Resolved'),
+(9, 'The food served on the train was cold and tasteless.', 'Pending'),
+(10, 'The train was delayed but no information was provided at the station.', 'Resolved');
+
+
+
+
+DELIMITER $$
+
+CREATE PROCEDURE Book_Ticket(
+    IN p_User_ID INT,
+    IN p_Train_ID INT,
+    IN p_Seat_Number VARCHAR(10),
+    IN p_Journey_Date DATE,
+    OUT p_Ticket_ID INT,
+    OUT p_Status VARCHAR(50)
+)
+BEGIN
+    DECLARE v_Train_Capacity INT;
+    DECLARE v_Booked_Seats INT;
+    
+    -- Check train capacity
+    SELECT Capacity INTO v_Train_Capacity FROM Trains WHERE Train_ID = p_Train_ID;
+    
+    -- Check for already booked seats
+    SELECT COUNT(*) INTO v_Booked_Seats FROM Tickets WHERE Train_ID = p_Train_ID AND Journey_Date = p_Journey_Date;
+    
+    -- If there is space, proceed with booking
+    IF v_Booked_Seats < v_Train_Capacity THEN
+        -- Insert Booking record
+        INSERT INTO Bookings (User_ID, Train_ID, Booking_Date, Payment_Status) 
+        VALUES (p_User_ID, p_Train_ID, CURDATE(), 'Pending');
+        
+        -- Get the last inserted Booking ID
+        SET p_Ticket_ID = LAST_INSERT_ID();
+        
+        -- Insert Ticket record
+        INSERT INTO Tickets (Booking_ID, Seat_Number, Price, Journey_Date) 
+        VALUES (p_Ticket_ID, p_Seat_Number, (SELECT Fare FROM Fares WHERE Train_ID = p_Train_ID AND Route_ID = (SELECT Route_ID FROM Schedules WHERE Train_ID = p_Train_ID LIMIT 1) LIMIT 1), p_Journey_Date);
+        
+        SET p_Status = 'Ticket Booked Successfully';
+    ELSE
+        SET p_Status = 'No Available Seats';
+    END IF;
+    
+END$$
+
+DELIMITER ;
+
+
+
+DELIMITER $$
+
+CREATE PROCEDURE Generate_Payment(
+    IN p_Booking_ID INT,
+    IN p_Payment_Mode ENUM('Cash', 'Online'),
+    OUT p_Payment_Status VARCHAR(50)
+)
+BEGIN
+    DECLARE v_Amount DECIMAL(10, 2);
+    
+    -- Fetch fare for the booking
+    SELECT Price INTO v_Amount 
+    FROM Tickets WHERE Booking_ID = p_Booking_ID LIMIT 1;
+    
+    -- Insert Payment record
+    INSERT INTO Payment (Booking_ID, Payment_Mode, Payment_Date, Amount) 
+    VALUES (p_Booking_ID, p_Payment_Mode, CURDATE(), v_Amount);
+    
+    -- Update Payment Status in Bookings Table
+    UPDATE Bookings SET Payment_Status = 'Completed' WHERE Booking_ID = p_Booking_ID;
+    
+    SET p_Payment_Status = 'Payment Completed Successfully';
+END$$
+
+DELIMITER ;
+
+
+
+
+DELIMITER $$
+
+CREATE PROCEDURE Add_Maintenance(
+    IN p_Train_ID INT,
+    IN p_Start_Date DATE,
+    IN p_End_Date DATE,
+    IN p_Description TEXT
+)
+BEGIN
+    -- Insert maintenance record
+    INSERT INTO Maintenance (Train_ID, Start_Date, End_Date, Description) 
+    VALUES (p_Train_ID, p_Start_Date, p_End_Date, p_Description);
+    
+    -- Update train status to "Maintenance"
+    UPDATE Trains SET Status = 'Maintenance' WHERE Train_ID = p_Train_ID;
+END$$
+
+DELIMITER ;
+
+
+
+
+DELIMITER $$
+
+CREATE PROCEDURE Update_Schedule(
+    IN p_Schedule_ID INT,
+    IN p_Departure_Time DATETIME,
+    IN p_Arrival_Time DATETIME
+)
+BEGIN
+    -- Update the schedule for a specific train
+    UPDATE Schedules
+    SET Departure_Time = p_Departure_Time, Arrival_Time = p_Arrival_Time
+    WHERE Schedule_ID = p_Schedule_ID;
+END$$
+
+DELIMITER ;
+
+
+
+
+DELIMITER $$
+
+CREATE PROCEDURE Cancel_Booking(
+    IN p_Booking_ID INT,
+    OUT p_Status VARCHAR(50)
+)
+BEGIN
+    DECLARE v_Train_ID INT;
+    
+    -- Get the Train_ID associated with the booking
+    SELECT Train_ID INTO v_Train_ID FROM Bookings WHERE Booking_ID = p_Booking_ID;
+    
+    -- Delete ticket(s) related to the booking
+    DELETE FROM Tickets WHERE Booking_ID = p_Booking_ID;
+    
+    -- Delete the booking record
+    DELETE FROM Bookings WHERE Booking_ID = p_Booking_ID;
+    
+    -- Update Train status if the booking is cancelled
+    UPDATE Trains SET Status = 'Running' WHERE Train_ID = v_Train_ID;
+    
+    SET p_Status = 'Booking Cancelled Successfully';
+END$$
+
+DELIMITER ;
+
+
+
+
+DELIMITER $$
+
+CREATE PROCEDURE Update_User_Info(
+    IN p_User_ID INT,
+    IN p_New_Address VARCHAR(255),
+    IN p_New_Phone_Number VARCHAR(15),
+    OUT p_Status VARCHAR(50)
+)
+BEGIN
+    -- Update the user information
+    UPDATE Users 
+    SET Address = p_New_Address, Phone_Number = p_New_Phone_Number 
+    WHERE User_ID = p_User_ID;
+    
+    IF ROW_COUNT() > 0 THEN
+        SET p_Status = 'User Information Updated Successfully';
+    ELSE
+        SET p_Status = 'User Not Found';
+    END IF;
+END$$
+
+DELIMITER ;
+
+
+
+
+
+DELIMITER $$
+
+CREATE TRIGGER Update_Train_Status_After_Maintenance
+AFTER UPDATE ON Maintenance
+FOR EACH ROW
+BEGIN
+    -- If the maintenance end date is provided and the maintenance period is over, update the train status to 'Running'
+    IF NEW.End_Date <= CURDATE() THEN
+        UPDATE Trains SET Status = 'Running' WHERE Train_ID = NEW.Train_ID;
+    END IF;
+END$$
+
+DELIMITER ;
+
+
+DELIMITER $$
+
+CREATE TRIGGER Prevent_Double_Booking
+BEFORE INSERT ON Tickets
+FOR EACH ROW
+BEGIN
+    DECLARE v_Seat_Count INT;
+    
+    -- Check if the seat is already booked for the specific train and journey date
+    SELECT COUNT(*) INTO v_Seat_Count
+    FROM Tickets 
+    WHERE Train_ID = (SELECT Train_ID FROM Bookings WHERE Booking_ID = NEW.Booking_ID) 
+    AND Seat_Number = NEW.Seat_Number
+    AND Journey_Date = NEW.Journey_Date;
+    
+    -- If seat is already booked, raise an error
+    IF v_Seat_Count > 0 THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Seat already booked for this train on the selected date';
+    END IF;
+END$$
+
+DELIMITER ;
+
+
+DELIMITER $$
+
+CREATE TRIGGER Update_Booking_After_Payment
+AFTER INSERT ON Payment
+FOR EACH ROW
+BEGIN
+    -- Update the Booking Status to 'Completed' after a successful payment
+    UPDATE Bookings 
+    SET Payment_Status = 'Completed'
+    WHERE Booking_ID = NEW.Booking_ID;
+END$$
+
+DELIMITER ;
+
+
+DELIMITER $$
+
+CREATE TRIGGER Update_Train_Capacity_After_Booking
+AFTER INSERT ON Tickets
+FOR EACH ROW
+BEGIN
+    DECLARE v_Capacity INT;
+    
+    -- Fetch current capacity of the train
+    SELECT Capacity INTO v_Capacity 
+    FROM Trains 
+    WHERE Train_ID = (SELECT Train_ID FROM Bookings WHERE Booking_ID = NEW.Booking_ID);
+    
+    -- Update the train capacity by reducing one seat
+    UPDATE Trains 
+    SET Capacity = v_Capacity - 1 
+    WHERE Train_ID = (SELECT Train_ID FROM Bookings WHERE Booking_ID = NEW.Booking_ID);
+END$$
+
+DELIMITER ;
+
+
+DELIMITER $$
+
+CREATE TRIGGER Update_User_Rating_After_Feedback
+AFTER INSERT ON Feedback
+FOR EACH ROW
+BEGIN
+    DECLARE v_Avg_Rating DECIMAL(3, 2);
+    
+    -- Calculate the average rating for the user
+    SELECT AVG(Rating) INTO v_Avg_Rating
+    FROM Feedback
+    WHERE User_ID = NEW.User_ID;
+    
+    -- Update the user's average rating
+    UPDATE Users
+    SET Rating = v_Avg_Rating
+    WHERE User_ID = NEW.User_ID;
+END$$
+
+DELIMITER ;
+
+
+DELIMITER $$
+
+CREATE TRIGGER Add_Extra_Charge_For_Overweight_Luggage
+AFTER INSERT ON Luggage
+FOR EACH ROW
+BEGIN
+    DECLARE v_Max_Weight DECIMAL(10, 2) DEFAULT 20.00; -- Maximum allowed weight (in kg)
+    DECLARE v_Extra_Charge DECIMAL(10, 2);
+    
+    -- Check if the luggage exceeds the allowed weight
+    IF NEW.Weight > v_Max_Weight THEN
+        -- Calculate the extra charge (charge for every kg over the limit)
+        SET v_Extra_Charge = (NEW.Weight - v_Max_Weight) * 10; -- Charge rate per kg
+        -- Update the luggage record with the extra charge
+        UPDATE Luggage 
+        SET Extra_Charge = v_Extra_Charge
+        WHERE Luggage_ID = NEW.Luggage_ID;
+    END IF;
+END$$
+
+DELIMITER ;
+
+
+
+
+
+
+CREATE TABLE User_Audit (
+    Audit_ID INT AUTO_INCREMENT PRIMARY KEY,
+    User_ID INT NOT NULL,
+    Action_Type VARCHAR(50) NOT NULL,
+    Action_Description TEXT NOT NULL,
+    Action_Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (User_ID) REFERENCES Users(User_ID)
+);
+
+DELIMITER $$
+
+CREATE TRIGGER Log_User_Action
+AFTER INSERT ON Bookings
+FOR EACH ROW
+BEGIN
+    INSERT INTO User_Audit (User_ID, Action_Type, Action_Description)
+    VALUES (NEW.User_ID, 'Booking', CONCAT('Booking created for Train_ID ', NEW.Train_ID, ' on ', NEW.Booking_Date));
+END$$
+
+DELIMITER ;
+
+
+
+CREATE TABLE Booking_Audit (
+    Audit_ID INT AUTO_INCREMENT PRIMARY KEY,
+    Booking_ID INT NOT NULL,
+    Old_Booking_Status ENUM('Pending', 'Completed', 'Cancelled') NOT NULL,
+    New_Booking_Status ENUM('Pending', 'Completed', 'Cancelled') NOT NULL,
+    Change_Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+    Changed_By INT NOT NULL, -- User who made the change
+    FOREIGN KEY (Booking_ID) REFERENCES Bookings(Booking_ID),
+    FOREIGN KEY (Changed_By) REFERENCES Users(User_ID)
+);
+
+DELIMITER $$
+
+CREATE TRIGGER Log_Booking_Payment_Status_Modification
+AFTER UPDATE ON Bookings
+FOR EACH ROW
+BEGIN
+    -- Only log if the Payment_Status has changed
+    IF OLD.Payment_Status <> NEW.Payment_Status THEN
+        INSERT INTO Booking_Audit (Booking_ID, Old_Payment_Status, New_Payment_Status, Change_Timestamp, Changed_By)
+        VALUES (NEW.Booking_ID, OLD.Payment_Status, NEW.Payment_Status, CURRENT_TIMESTAMP, NEW.User_ID);
+    END IF;
+END$$
+
+DELIMITER ;
+
+
+
+CREATE TABLE Payment_Audit (
+    Audit_ID INT AUTO_INCREMENT PRIMARY KEY,
+    Payment_ID INT NOT NULL,
+    Old_Payment_Status ENUM('Pending', 'Completed') NOT NULL,
+    New_Payment_Status ENUM('Pending', 'Completed') NOT NULL,
+    Change_Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+    Changed_By INT NOT NULL, -- User who made the change
+    FOREIGN KEY (Payment_ID) REFERENCES Payment(Payment_ID),
+    FOREIGN KEY (Changed_By) REFERENCES Users(User_ID)
+);
+
+DELIMITER $$
+
+CREATE TRIGGER Log_Payment_Modification
+AFTER UPDATE ON Payment
+FOR EACH ROW
+BEGIN
+    -- Log only if Payment_Mode or Amount is changed
+    IF OLD.Payment_Mode <> NEW.Payment_Mode OR OLD.Amount <> NEW.Amount THEN
+        INSERT INTO Payment_Audit (Payment_ID, Old_Payment_Mode, New_Payment_Mode, Old_Amount, New_Amount, Change_Timestamp, Changed_By)
+        VALUES (NEW.Payment_ID, OLD.Payment_Mode, NEW.Payment_Mode, OLD.Amount, NEW.Amount, CURRENT_TIMESTAMP, NEW.Booking_ID);
+    END IF;
+END$$
+
+DELIMITER ;
+
+
+
+
+
+CREATE VIEW Booking_Details AS
+SELECT 
+    B.Booking_ID,
+    U.Name AS User_Name,
+    T.Train_Name,
+    B.Booking_Date,
+    B.Payment_Status
+FROM 
+    Bookings B
+JOIN 
+    Users U ON B.User_ID = U.User_ID
+JOIN 
+    Trains T ON B.Train_ID = T.Train_ID;
+
+
+CREATE VIEW Payment_Overview AS
+SELECT 
+    P.Payment_ID,
+    B.Booking_ID,
+    P.Payment_Mode,
+    P.Amount,
+    P.Payment_Date,
+    U.Name AS User_Name,
+    B.Payment_Status
+FROM 
+    Payment P
+JOIN 
+    Bookings B ON P.Booking_ID = B.Booking_ID
+JOIN 
+    Users U ON B.User_ID = U.User_ID;
+
+
+
+CREATE VIEW Train_Schedule_Details AS
+SELECT 
+    S.Schedule_ID,
+    T.Train_Name,
+    R.Start_Station,
+    R.End_Station,
+    S.Departure_Time,
+    S.Arrival_Time
+FROM 
+    Schedules S
+JOIN 
+    Trains T ON S.Train_ID = T.Train_ID
+JOIN 
+    Routes R ON S.Route_ID = R.Route_ID;
+
+
+CREATE VIEW Feedback_Summary AS
+SELECT 
+    F.Feedback_ID,
+    U.Name AS User_Name,
+    F.Feedback_Text,
+    F.Rating
+FROM 
+    Feedback F
+JOIN 
+    Users U ON F.User_ID = U.User_ID;
+
+
+CREATE VIEW Luggage_Details AS
+SELECT 
+    L.Luggage_ID,
+    L.Weight,
+    L.Extra_Charge,
+    B.Booking_ID,
+    B.User_ID
+FROM 
+    Luggage L
+JOIN 
+    Bookings B ON L.Booking_ID = B.Booking_ID;
+
+
+CREATE VIEW Train_Status AS
+SELECT 
+    Train_ID,
+    Train_Name,
+    Status
+FROM 
+    Trains;
+
+
+CREATE VIEW Routes_Overview AS
+SELECT 
+    Route_ID,
+    Start_Station,
+    End_Station,
+    Distance,
+    Duration
+FROM 
+    Routes;
+
+
+
